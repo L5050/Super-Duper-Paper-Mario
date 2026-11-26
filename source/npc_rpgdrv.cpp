@@ -898,12 +898,12 @@ EVT_END()
     kuribo_main();
     npcDataTable[0] = {0, animsKuribo, 10, kuribo_attack, nullptr, nullptr};
 
-    doopliss_main();
     npcDataTable[1] = {125, animsOcta2, 10, octa_attack, nullptr, nullptr};
-
-    koopa_main();
+    
+    doopliss_main();
     npcDataTable[2] = {529, getDooplissAnims(), 0, doopliss_attack, nullptr, doopliss_death}; // Doopliss
 
+    koopa_main();
     npcDataTable[3] = {11, getKoopaAnims(), 10, koopa_attack, koopa_onhit, nullptr}; // Green Koopa Troopa
 
     sproing_main();
