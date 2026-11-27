@@ -1257,23 +1257,23 @@ namespace mod::customwin {
                     CWColorOverrideAnimateAction(entry->pos.x, entry->pos.y, entry->scale.x, entry->scale.y, pause, id);
                 }
             } else // Draws a normal white box
-                windowdrv::windowDispGX2_Waku_col(&mtx, 0, &selectCol, entry->pos.x, entry->pos.y, entry->scale.x, entry->scale.y, 0);
+                windowdrv::windowDispGX2_Waku_col(mtx, 0, &selectCol, entry->pos.x, entry->pos.y, entry->scale.x, entry->scale.y, 0);
         } else // Draws a normal white box
-            windowdrv::windowDispGX2_Waku_col(&mtx, 0, &selectCol, entry->pos.x, entry->pos.y, entry->scale.x, entry->scale.y, 0);
+            windowdrv::windowDispGX2_Waku_col(mtx, 0, &selectCol, entry->pos.x, entry->pos.y, entry->scale.x, entry->scale.y, 0);
         gxsub::gxsubInit();
         gxsub::gxsubDrawLineSquare(entry->pos.x, entry->pos.y, (entry->scale.x * entry->scalarScale), (entry->scale.y * entry->scalarScale), 0x10, &black);
         switch (entry->desc->type) {
         case 1:
             hdrPosX = entry->pos.x + (entry->scale.x - 150) / 2;
             hdrPosY = entry->pos.y + 14;
-            windowdrv::windowDispGX2_Waku_col(&mtx, 0, &blue, hdrPosX, hdrPosY, 150, 28, 0);
+            windowdrv::windowDispGX2_Waku_col(mtx, 0, &blue, hdrPosX, hdrPosY, 150, 28, 0);
             gxsub::gxsubInit();
             gxsub::gxsubDrawLineSquare(hdrPosX, hdrPosY, (150 * entry->scalarScale), (28 * entry->scalarScale), 0x10, &black);
             break;
         case 2:
             hdrPosX = entry->pos.x + (entry->scale.x - 200) / 2;
             hdrPosY = entry->pos.y + 14;
-            windowdrv::windowDispGX2_Waku_col(&mtx, 0, &blue, hdrPosX, hdrPosY, 200, 28, 0);
+            windowdrv::windowDispGX2_Waku_col(mtx, 0, &blue, hdrPosX, hdrPosY, 200, 28, 0);
             gxsub::gxsubInit();
             gxsub::gxsubDrawLineSquare(hdrPosX, hdrPosY, (200 * entry->scalarScale), (28 * entry->scalarScale), 0x10, &black);
             break;
