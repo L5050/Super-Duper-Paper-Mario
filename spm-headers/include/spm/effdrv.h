@@ -41,10 +41,10 @@ typedef struct _EffEntry
 /* 0x02 */ u16 type; // 0 or 1, groups entries for limits
 /* 0x04 */ s32 releaseType; // 0 or 1, groups entries for freeing
                             // (1 means 'in battle', unused TTYD leftover)
-/* 0x08 */ u8 unknown_0x8[0xc - 0x8];
+/* 0x08 */ s32 count;
 /* 0x0C */ void * userWork;
 /* 0x10 */ EffFunc * mainFunc;
-/* 0x14 */ u8 unknown_0x14[0x18 - 0x14];
+/* 0x14 */ const char * effName;
 /* 0x18 */ char instanceName[16];
 /* 0x28 */ u8 unknown_0x28[0x2c - 0x28];
 } EffEntry;
@@ -116,13 +116,49 @@ typedef struct {
 } EffTarget_Mario;
 SIZE_ASSERT(EffTarget_Mario, 0x1c)
 
-union EffTargetUnion {
+typedef struct
+{
+/* 0x00 */ s32 type; // EffTargetType
+/* 0x04 */ s32 npcId;
+/* 0x08 */ NPCEntry * npcEntry;
+/* 0x0C */ u8 unknown_0x08[0x1c - 0x0c];
+} EffTarget_NPC;
+SIZE_ASSERT(EffTarget_NPC, 0x1c)
+
+typedef struct
+{
+/* 0x00 */ s32 type; // EffTargetType
+/* 0x04 */ Vec3 pos;
+/* 0x10 */ Vec3 offset; // conjectural, untested
+} EffTarget_Coord;
+SIZE_ASSERT(EffTarget_Coord, 0x1c)
+
+typedef struct
+{
+/* 0x00 */ s32 type; // EffTargetType
+/* 0x04 */ s32 fairyId;
+/* 0x08 */ u8 unknown_0x08[0x1c - 0x08];
+} EffTarget_Fairy;
+SIZE_ASSERT(EffTarget_Fairy, 0x1c)
+
+typedef struct
+{
+/* 0x00 */ s32 type; // EffTargetType
+/* 0x04 */ u8 unknown_0x04[0x1c - 0x04];
+} EffTarget_Guide;
+SIZE_ASSERT(EffTarget_Guide, 0x1c)
+
+typedef union
+{
     EffTarget_Mario mario;
     EffTarget_NPC npc;
     EffTarget_Coord coord;
     EffTarget_Fairy fairy;
     EffTarget_Guide guide;
-};
+} EffTargetUnion;
+
+DECOMP_STATIC(EffWork effdrv_work)
+DECOMP_STATIC(EffWork * effdrv_wp)
 
 /*
     Allocates entries
