@@ -53,6 +53,8 @@ bool unfurled = false;
 bool endingUnfurl = false;
 bool unfurlTargetHit = false;
 
+static s32( * marioCheckCharAbilityCanUse)();
+
 void new_func_spsndSFXOn(char * name)
 {
   if (unfurled)
@@ -75,6 +77,17 @@ void new_func_80058404(s32 camId, s32 isFlipped)
     unfurlDuration = 0;
   }
   return;
+}
+
+s32 new_func_80129db8()
+{
+  if (unfurled && curFrames > spm::spmario::gp->fps * 3)
+  {
+    spm::mario::marioGetPtr()->cam3dRelated = 0;
+    return 0;
+  } else {
+    return spm::mario::func_80129db8();
+  }
 }
 
 bool new_checkHaveItem(s32 id)
@@ -106,6 +119,15 @@ void new_clear_hitobj_hammer_wall()
   return;
 }
 
+s32 new_marioCheckCharAbilityCanUse()
+{
+  if (!unfurled)
+  {
+    return marioCheckCharAbilityCanUse();
+  }
+  return 0;
+}
+
 s32 evt_clear_hitobj_hammer_wall(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 {
   spm::mario_hit::clear_hitobj_hammer_wall();
@@ -128,12 +150,15 @@ s32 end_unfurl(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 }
 EVT_DECLARE_USER_FUNC(end_unfurl, 0)
 
-s32 make3d_unfurl(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
+s32 make3d_unfurl(spm::evtmgr::EvtEntry *evtEntry, bool firstRun)
 {
   unfurled = true;
   unfurlDuration = 20;
-  spm::mario::func_80129d8c();
-  writeWord(spm::camdrv::func_80058404, 0x138, LI(3, 1000));
+  if (!spm::mario::marioCheck3d())
+  {
+    spm::mario::func_80129d8c();
+    writeWord(spm::camdrv::func_80058404, 0x138, LI(3, 1000));
+  }
   return 2;
 }
 EVT_DECLARE_USER_FUNC(make3d_unfurl, 0)
@@ -186,10 +211,8 @@ EVT_END()
 EVT_BEGIN(unfurl_hit_visual)
   USER_FUNC(evt_mario_key_off, 1)
   USER_FUNC(evt_snd_bgmon, 2, PTR("BGM_FF_CORRECT1"))
-  WAIT_MSEC(500)
   USER_FUNC(end_unfurl)
-  USER_FUNC(evt_snd_get_bgm_wait_time, 2, LW(0))
-  WAIT_MSEC(LW(0))
+  WAIT_MSEC(500)
   INLINE_EVT_ID(LW(9))
       USER_FUNC(evt_cam_shake, 5, FLOAT(1.5), FLOAT(1.5), FLOAT(0.0), 0, 0)
   END_INLINE()
@@ -292,14 +315,15 @@ EVT_BEGIN(unfurl_hammer)
     USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_F_HAMMER_SWING1"))
     USER_FUNC(spm::evt_mario::evt_mario_wait_anim)
     USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_F_HAMMER_HIT1"))
+    USER_FUNC(evt_cam_shake, 5, FLOAT(1.5), FLOAT(1.5), FLOAT(0.0), 100, 0)
   ELSE()
     USER_FUNC(spm::evt_mario::evt_mario_set_pose, PTR("H_1D"), 0)
     USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_F_HAMMER_SWING1"))
     USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_F_HAMMER_HIT1"))
+    USER_FUNC(evt_cam_shake, 5, FLOAT(1.5), FLOAT(1.5), FLOAT(0.0), 100, 0)
     USER_FUNC(spm::evt_mario::evt_mario_wait_anim)
     WAIT_FRM(5)
   END_IF()
-  WAIT_FRM(5)
   USER_FUNC(spm::evt_mario::evt_mario_set_pose, PTR("S_1"), 0)
   USER_FUNC(evt_mario_key_on)
   RETURN()
@@ -396,6 +420,7 @@ EVT_BEGIN(ta1_01_patch)
   USER_FUNC(spm::evt_mobj::evt_mobj_flag_onoff, 0, 0, PTR("ham_blk"), 0x20)
   USER_FUNC(spm::evt_mobj::evt_mobj_flag_onoff, 0, 0, PTR("ham_blk"), 0x100000)
   USER_FUNC(evt_run_case_evt, 8, 1, PTR("MOBJ2_ham_blk"), PTR("MOBJ3_ham_blk"), PTR(unfurl_hit_visual), LW(7))
+  USER_FUNC(spm::evt_door::evt_door_enable_disable_dokan_desc, 0, PTR("dokan_06"))
 RETURN_FROM_CALL()
 
 void unfurl_main()
@@ -405,7 +430,9 @@ void unfurl_main()
   writeBranchLink(spm::mario_pouch::pouchMain, 0x19C, new_func_spsndSFXOn);
   writeBranchLink(spm::mario_motion::marioMotion, 0x1c, new_clear_hitobj_hammer_wall);
   writeBranchLink(spm::casedrv::caseMain, 0x164, new_marioKeyOffChk);
+  writeBranchLink(spm::camdrv::cam3dMain, 0x308, new_func_80129db8);
   seqMain = patch::hookFunction(spm::seqdrv::seqMain, new_seqMain);
+  marioCheckCharAbilityCanUse = patch::hookFunction(spm::mario_motion::marioCheckCharAbilityCanUse, new_marioCheckCharAbilityCanUse);
   writeBranch(spm::seqdef::seq_data[spm::seqdrv::SEQ_GAME].init, 0xC0, gameInitPatch);
 }
 
@@ -415,6 +442,7 @@ void ta1_01_main()
   spm::evtmgr::EvtScriptCode* ta1_01_init_evt = ta1_01_md->initScript;
   evtpatch::hookEvtReplace(ta1_01_init_evt, 108, (spm::evtmgr::EvtScriptCode*)ta1_01_patch);
   unfurl_main();
+  //spm::evt_door::DokanDesc* ta1_desc = (spm::evt_door::DokanDesc*)getInstructionEvtArg(ta1_01_init_evt, 30, 1);
   return;
 }
 
