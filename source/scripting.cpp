@@ -201,8 +201,8 @@ const char * tutorial = "<dq>\n"
   s32 patchTechniquesMario(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
   {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
-    msl::string::strcpy(usableMarioTechs[0].nameTxt, "Tattle");
-    msl::string::strcpy(usableMarioTechs[0].descTxt, "Get information on a target enemy!");
+    usableMarioTechs[0].nameTxt = "Tattle";
+    usableMarioTechs[0].descTxt = "Get information on a target enemy!";
     usableMarioTechs[0].cost = 0;
     usableMarioTechs[0].iconId = -1;
     usableMarioTechs[0].page = 0;
@@ -217,8 +217,8 @@ const char * tutorial = "<dq>\n"
       if (badgeInfo->equipped && badgeFP != -1)
       {
         ip::BadgeDef *badgeDef = ip::pouchGetBadgeDef(i);
-        msl::string::strcpy(usableMarioTechs[numOptions].nameTxt, spm::msgdrv::msgSearch(badgeDef->nameMsg));
-        msl::string::strcpy(usableMarioTechs[numOptions].descTxt, spm::msgdrv::msgSearch(badgeDef->descMsg));
+        usableMarioTechs[numOptions].nameTxt = spm::msgdrv::msgSearch(badgeDef->nameMsg);
+        usableMarioTechs[numOptions].descTxt = spm::msgdrv::msgSearch(badgeDef->descMsg);
         usableMarioTechs[numOptions].page = 0;
         usableMarioTechs[numOptions].cost = badgeFP;
         usableMarioTechs[numOptions].iconId = -1;
@@ -324,26 +324,26 @@ EVT_DECLARE_USER_FUNC(getBadgeIdSelect, 2)
   s32 patchTechniquesPeach(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
   {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
-    msl::string::strcpy(usablePeachTechs[0].nameTxt, "Appeal");
-    msl::string::strcpy(usablePeachTechs[0].descTxt, "Raises your stylish level by 2!");
+    usablePeachTechs[0].nameTxt = "Appeal";
+    usablePeachTechs[0].descTxt = "Raises your stylish level by 2!";
     usablePeachTechs[0].cost = 0;
     usablePeachTechs[0].iconId = -1;
     usablePeachTechs[0].page = 0;
-    msl::string::strcpy(usablePeachTechs[1].nameTxt, "Power Refresh");
-    msl::string::strcpy(usablePeachTechs[1].descTxt, "Generates panels to heal HP and FP!\nDon't click the poison shrooms!");
+    usablePeachTechs[1].nameTxt = "Power Refresh";
+    usablePeachTechs[1].descTxt = "Generates panels to heal HP and FP!\nDon't click the poison shrooms!";
     usablePeachTechs[1].cost = 1;
     usablePeachTechs[1].iconId = -1;
     usablePeachTechs[1].page = 0;
-    msl::string::strcpy(usablePeachTechs[2].nameTxt, "Soulstopper");
-    msl::string::strcpy(usablePeachTechs[2].descTxt, "OHKO's enemies you have a catch card for!\nConsumes the catch card if they aren't pacifiable.");
+    usablePeachTechs[2].nameTxt = "Soulstopper";
+    usablePeachTechs[2].descTxt = "OHKO's enemies you have a catch card for!\nConsumes the catch card if they aren't pacifiable.";
     usablePeachTechs[2].cost = 1;
     usablePeachTechs[2].iconId = -1;
     usablePeachTechs[2].page = 0;
     s32 numOptions = 3;
     if (spm::spmario::gp->gsw0 >= 96)
     {
-      msl::string::strcpy(usablePeachTechs[3].nameTxt, "Purification");
-      msl::string::strcpy(usablePeachTechs[3].descTxt, "Does 10 damage against enemies with a status effect\nRemoves statuses from all enemies.");
+      usablePeachTechs[3].nameTxt = "Purification";
+      usablePeachTechs[3].descTxt = "Does 10 damage against enemies with a status effect\nRemoves statuses from all enemies.";
       usablePeachTechs[3].cost = 1;
       usablePeachTechs[3].iconId = -1;
       usablePeachTechs[3].page = 0;
@@ -360,13 +360,13 @@ EVT_DECLARE_USER_FUNC(getBadgeIdSelect, 2)
   s32 patchTechniquesBowser(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
   {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
-    msl::string::strcpy(usableBowserTechs[0].nameTxt, "Fire");
-    msl::string::strcpy(usableBowserTechs[0].descTxt, "Breathe fire against all enemies!\nUses all FP.");
+    usableBowserTechs[0].nameTxt = "Fire";
+    usableBowserTechs[0].descTxt = "Breathe fire against all enemies!\nUses all FP.";
     usableBowserTechs[0].cost = _getFP();
     usableBowserTechs[0].iconId = -1;
     usableBowserTechs[0].page = 0;
-    msl::string::strcpy(usableBowserTechs[1].nameTxt, "Vacuum");
-    msl::string::strcpy(usableBowserTechs[1].descTxt, "Inhales enemies like gummy bears!\nEffects vary depending on enemy.");
+    usableBowserTechs[1].nameTxt = "Vacuum";
+    usableBowserTechs[1].descTxt = "Inhales enemies like gummy bears!\nEffects vary depending on enemy.";
     usableBowserTechs[1].cost = 0;
     usableBowserTechs[1].iconId = -1;
     usableBowserTechs[1].page = 0;

@@ -48,8 +48,8 @@ namespace mod::customwin {
         u8 page;    // only read if select is Info; index starts at 0
         wii::gx::GXColor nameColor;
         bool deallocStrings;
-        char * nameTxt;
-        char * descTxt;
+        const char * nameTxt;
+        const char * descTxt;
     };
 
     struct CWSelectColorDef {
