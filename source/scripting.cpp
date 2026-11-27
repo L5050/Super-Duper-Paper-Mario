@@ -23,7 +23,7 @@
 #include <spm/evt_img.h>
 #include <spm/evt_env.h>
 #include <spm/evt_eff.h>
-#include <spm/eff/eff_happy_flower.h>
+#include <spm/eff/eff_item_exe.h>
 #include <spm/eff/eff_gonbaba_breathe.h>
 #include <spm/evt_fairy.h>
 #include <spm/evt_snd.h>
