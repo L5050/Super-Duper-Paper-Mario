@@ -223,7 +223,7 @@ const char * tutorial = "<dq>\n"
         usableMarioTechs[numOptions].cost = badgeFP;
         usableMarioTechs[numOptions].iconId = -1;
         badgeidList[numOptions] = badgeInfo->id;
-        numOptions++;
+        numOptions += 1;
       }
     }
     
