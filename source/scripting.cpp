@@ -543,7 +543,7 @@ s32 flower_effect(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 
 s32 mario_reset_rotation(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 {
-    spm::mario::marioGetPtr()->ttydRotation = {0.0, 0.0, 0.0};
+    spm::mario::marioGetPtr()->axisRotation = {0.0, 0.0, 0.0};
     return 2;
 }
 
@@ -569,8 +569,8 @@ s32 mario_rotate_x(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
     f32 rotation = spm::evtmgr_cmd::evtGetFloat(evtEntry, args[0]);
-    Vec3 *ttydRotation = &spm::mario::marioGetPtr()->ttydRotation;
-    spm::mario::marioGetPtr()->ttydRotation = {rotation, ttydRotation->y, ttydRotation->z};
+    Vec3 *axisRotation = &spm::mario::marioGetPtr()->axisRotation;
+    spm::mario::marioGetPtr()->axisRotation = {rotation, axisRotation->y, axisRotation->z};
     return 2;
 }
 
@@ -578,8 +578,8 @@ s32 mario_rotate_z(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
     f32 rotation = spm::evtmgr_cmd::evtGetFloat(evtEntry, args[0]);
-    Vec3 *ttydRotation = &spm::mario::marioGetPtr()->ttydRotation;
-    spm::mario::marioGetPtr()->ttydRotation = {ttydRotation->x, ttydRotation->y, rotation};
+    Vec3 *axisRotation = &spm::mario::marioGetPtr()->axisRotation;
+    spm::mario::marioGetPtr()->axisRotation = {axisRotation->x, axisRotation->y, rotation};
     return 2;
 }
 
@@ -603,13 +603,6 @@ s32 npc_get_bounding_box(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
     spm::evtmgr_cmd::evtSetFloat(evtEntry, args[4], ret2.y);
     
 
-    return 2;
-}
-
-s32 rpg_get_technique_index(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
-{
-    spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
-    spm::evtmgr_cmd::evtSetValue(evtEntry, args[0], spm::an2_08::rpgdrv_wp->menus[1].selected);
     return 2;
 }
 
