@@ -524,7 +524,20 @@ EVT_DECLARE_USER_FUNC(mario_chg_mot, 1)
 s32 flower_effect(spm::evtmgr::EvtEntry * evtEntry, bool firstRun)
 {
     spm::evtmgr::EvtVar * args = (spm::evtmgr::EvtVar *)evtEntry->pCurData;
-    spm::happy_flower::effHappyFlower(spm::evtmgr_cmd::evtGetValue(evtEntry, args[0]));
+    spm::effdrv::EffEntry * eff = spm::item_exe::effItemExeEntry(spm::evtmgr_cmd::evtGetValue(evtEntry, args[0]));
+    /*
+    const char * name = (const char *)spm::evtmgr_cmd::evtGetValue(evtEntry, args[1]);
+    if (name != nullptr)
+    {
+      spm::npcdrv::NPCEntry * npc = npcNameToPtr(name);
+      spm::item_exe::EffItemExe * userWork = (spm::item_exe::EffItemExe *)eff->userWork;
+      userWork->target.coord.type = 0;
+      userWork->target.coord.pos.x = npc->position.x;
+      userWork->target.coord.pos.y = npc->position.y;
+      userWork->target.coord.pos.z = npc->position.z;
+      userWork->target.coord.pos.z += 50.0;
+    }
+    */
     return 2;
 }
 
@@ -1849,7 +1862,7 @@ SWITCH(LW(10))
               USER_FUNC(spm::evt_pouch::evt_pouch_add_hp, LW(8))
               WAIT_MSEC(1000)
               USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_I_HAPPYFLOWER1"))
-              USER_FUNC(flower_effect, 4)
+              USER_FUNC(flower_effect, 4, 0)
               WAIT_MSEC(1000)
             ELSE()
               USER_FUNC(spm::evt_msg::evt_msg_print, 1, PTR("<dq><once_stop>"), 0, 0)
@@ -4104,7 +4117,7 @@ IF_EQUAL(LW(6), 1)
     IF_LARGE(LW(1), LW(8))
       USER_FUNC(setFP, LW(8))
     END_IF()
-    USER_FUNC(flower_effect, 4)
+    USER_FUNC(flower_effect, 4, 0)
     WAIT_MSEC(1250)
   END_IF()
 END_IF()

@@ -41,7 +41,7 @@ namespace mod {
   EVT_DECLARE_USER_FUNC(mario_paper_on, 1)
   EVT_DECLARE_USER_FUNC(mario_chg_paper, 1)
   EVT_DECLARE_USER_FUNC(npc_change_name, 2)
-  EVT_DECLARE_USER_FUNC(flower_effect, 1)
+  EVT_DECLARE_USER_FUNC(flower_effect, 2)
   EVT_DECLARE_USER_FUNC(rpg_npc_get_xp, 2)
   EVT_DECLARE_USER_FUNC(makeNot3d, 0)
   EVT_DECLARE_USER_FUNC(make3d, 1)

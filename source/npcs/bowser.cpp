@@ -6,6 +6,7 @@
 #include "npc_rpgdrv.h"
 #include "bowser.h"
 #include "savepatch.h"
+#include "robo_succ.h"
 
 #include <spm/rel/an.h>
 #include <spm/evtmgr.h>
@@ -136,6 +137,7 @@ namespace mod {
     USER_FUNC(spm::evt_msg::evt_msg_print, 1, PTR(browser_dia_3), 0, 0)
     USER_FUNC(getMaxFP, LW(0))
     USER_FUNC(spm::evt_npc::evt_npc_set_unitwork, LW(15), 3, LW(0))
+    USER_FUNC(evt_npc_set_anim, LW(15), 0, 1)
     RETURN()
   EVT_END()
   
@@ -167,7 +169,7 @@ namespace mod {
       SUB(LW(5), 50)
       ADD(LW(6), 50)
       USER_FUNC(displayDamage, LW(5), LW(6), LW(7), LW(10))
-      WAIT_MSEC(1200)
+      WAIT_MSEC(1000)
       INLINE_EVT()
         USER_FUNC(spm::evt_cam::evt_cam3d_evt_zoom_in, 0, UW(1), EVT_NULLPTR, UW(3), UW(1), EVT_NULLPTR, 200, 1000, 11)
       END_INLINE()
@@ -309,11 +311,44 @@ namespace mod {
       RETURN()
   EVT_END()
 
+EVT_BEGIN(google_chrome_sucks_ass)
+  USER_FUNC(evt_npc_get_position, LW(15), LW(5), LW(6), LW(7))
+  USER_FUNC(flower_effect, 4, LW(15))
+  USER_FUNC(spm::evt_snd::evt_snd_sfxon, PTR("SFX_I_HAPPYFLOWER1"))
+  SUB(LW(5), 10)
+  SUB(LW(6), 60)
+  SUB(LW(7), 15)
+  USER_FUNC(spm::evt_npc::evt_npc_entry, PTR("vacuum_goomba"), PTR("e_kuribo"), 0)
+  USER_FUNC(spm::evt_npc::evt_npc_set_color, PTR("vacuum_goomba"), 255, 255, 255, 0)
+  USER_FUNC(spm::evt_npc::evt_npc_set_position, PTR("vacuum_goomba"), LW(5), LW(6), LW(7))
+  //USER_FUNC(spm::evt_npc::evt_npc_get_axis_movement_unit, PTR("vacuum_goomba"), LW(0))
+  //MUL(LW(0), -1)
+  //USER_FUNC(spm::evt_npc::evt_npc_set_axis_movement_unit, PTR("vacuum_goomba"), LW(0))
+  USER_FUNC(evt_npc_set_anim, LW(15), 8, 1)
+  USER_FUNC(evt_npc_wait_anim_end, LW(15), 0)
+  USER_FUNC(evt_npc_set_anim, LW(15), 9, 1)
+  USER_FUNC(evt_npc_wait_anim_end, LW(15), 0)
+  USER_FUNC(evt_npc_set_anim, LW(15), 10, 1)
+  USER_FUNC(spawn_robo_eff, PTR("vacuum_goomba"), PTR("b_p_vacuum"))
+  USER_FUNC(spm::evt_snd::evt_snd_bgmon, 2, PTR("BGM_EVT_VACUUM"))
+  USER_FUNC(spm::evt_mario::evt_mario_set_pose, PTR("E_3"), 0) 
+  WAIT_MSEC(750)
+  USER_FUNC(spm::evt_mario::evt_mario_set_pose, PTR("D_5"), 0) 
+  USER_FUNC(spm::evt_eff::evt_eff_softdelete, PTR("b_p_vacuum"))
+  INLINE_EVT()
+    WAIT_FRM(60)
+    USER_FUNC(spm::evt_npc::evt_npc_delete, PTR("vacuum_goomba"))
+    USER_FUNC(npc_change_name, PTR("vacuum_goomba"), PTR("deadVacuumGoomba"))
+  END_INLINE()
+  RETURN()
+EVT_END()
+
   EVT_BEGIN(browser_edging_attack)
     USER_FUNC(getMaxFP, LW(9))
     USER_FUNC(spm::evt_npc::evt_npc_get_unitwork, LW(15), 3, LW(0))
     IF_SMALL(LW(0), LW(9))
       IF_EQUAL(LW(0), 0)
+        RUN_CHILD_EVT(google_chrome_sucks_ass)
         // vacuum evt here
       ELSE()
       
