@@ -1059,9 +1059,9 @@ namespace mod::customwin {
                 wii::mtx::PSMTXConcat(mtxPos, mtxScale, mtxPos);
                 // Draw listing icon
                 if (Descs[i].iconId != -1) {
-                    icondrv::iconDispGxCol(mtxPos, 0x10, Descs[i].iconId, &iconCol);
+                    icondrv::iconDispGxCol(mtxPos, 0x10, Descs[i].iconId, iconCol);
                 } else if (Descs[i].itemId > 0)
-                    icondrv::iconDispGxCol(mtxPos, 0x10, item_data::itemDataTable[Descs[i].itemId].iconId, &iconCol);
+                    icondrv::iconDispGxCol(mtxPos, 0x10, item_data::itemDataTable[Descs[i].itemId].iconId, iconCol);
                 // Draw listing name
                 wii::mtx::PSMTXTrans(mtxPos, win->pos.x + 60, select->scrollProgress - ((25.0 * i) - (win->pos.y - 32)), 0.0);
                 const char * name = msgdrv::msgSearch(item_data::itemDataTable[CW->itemTable[i]].nameMsg);
@@ -1138,14 +1138,14 @@ namespace mod::customwin {
                 wii::mtx::PSMTXConcat(mtxPos, mtxRot, mtxPos);
                 wii::mtx::PSMTXConcat(mtxPos, mtxAnim, mtxPos);
                 wii::mtx::PSMTXConcat(mtxPos, mtxScale, mtxPos);
-                icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, &iconCol);
+                icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, iconCol);
             }
             if ((u32)select->scrollIdx != (CW->num - 8)) {
                 wii::mtx::PSMTXTrans(mtxPos, (win->scale.x * 0.5) + win->pos.x, (win->pos.y - win->scale.y), 0.0);
                 wii::mtx::PSMTXScale(mtxScale, 0.6, 0.6, 0.6);
                 wii::mtx::PSMTXConcat(mtxPos, mtxAnim, mtxPos);
                 wii::mtx::PSMTXConcat(mtxPos, mtxScale, mtxPos);
-                icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, &iconCol);
+                icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, iconCol);
             }
         }
         // Draw left/right arrows if we have pages
@@ -1157,14 +1157,14 @@ namespace mod::customwin {
             wii::mtx::PSMTXConcat(mtxPos, mtxRot, mtxPos);
             wii::mtx::PSMTXConcat(mtxPos, mtxAnim, mtxPos);
             wii::mtx::PSMTXConcat(mtxPos, mtxScale, mtxPos);
-            icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, &iconCol);
+            icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, iconCol);
             wii::mtx::PSMTXTrans(mtxPos, (win->scale.x * 0.5) + win->pos.x + 120.0, win->pos.y, 0.0);
             wii::mtx::PSMTXRotRad((PI / 2), mtxRot, 'z');
             wii::mtx::PSMTXScale(mtxScale, 0.6, 0.6, 0.6);
             wii::mtx::PSMTXConcat(mtxPos, mtxRot, mtxPos);
             wii::mtx::PSMTXConcat(mtxPos, mtxAnim, mtxPos);
             wii::mtx::PSMTXConcat(mtxPos, mtxScale, mtxPos);
-            icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, &iconCol);
+            icondrv::iconDispGxCol(mtxPos, 0x4010, icondrv::ICON_POINTING_ARROW, iconCol);
         }
         // Draw cursor
         wii::mtx::Vec3 cursorPos = {select->pos.x, select->pos.y, 1.0};
